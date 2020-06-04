@@ -17,9 +17,9 @@ export const handler: APIGatewayProxyHandler = async (
 	// TODO: Implement creating a new TODO item
 	logger.info("Processing event: ", event);
 
+	const userId = "123";
 	const docClient = new AWS.DynamoDB.DocumentClient();
 	const todosTable = process.env.TODO_ITEMS;
-	const userId = "123";
 	const createTodoRequest: CreateTodoRequest = JSON.parse(event.body);
 	const todoId = uuid.v4();
 
