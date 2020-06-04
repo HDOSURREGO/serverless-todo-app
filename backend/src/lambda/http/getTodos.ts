@@ -17,6 +17,7 @@ export const handler: APIGatewayProxyHandler = async (
 	console.log("Processing event: ", event);
 	const userId = "123";
 	// const userId = getUserId(event);
+
 	const result = await docClient
 		.query({
 			TableName: todosTable,
