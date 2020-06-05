@@ -58,13 +58,24 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_ITEMS}
 
-#   # TODO: Configure this function
-#   UpdateTodo:
-#     handler: src/lambda/http/updateTodo.handler
-#     events:
-#       - http:
-#           method: patch
-#           path: todos/{todoId}
+  #   # TODO: Configure this function
+  UpdateTodo:
+    handler: src/lambda/http/updateTodo.handler
+    events:
+      - http:
+          method: patch
+          path: todos/{todoId}
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update todoItem
+            description: Update todoItem
+            requestModels:
+              "application/json": UpdateTodoRequest
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_ITEMS}
 
 #   # TODO: Configure this function
 #   DeleteTodo:
