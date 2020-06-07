@@ -42,6 +42,6 @@ export const handler: APIGatewayProxyHandler = async (
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		},
-		body: "Item Deleted",
+		body: "",
 	};
 };
