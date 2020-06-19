@@ -18,7 +18,7 @@ provider:
   environment:
     TODO_ITEMS: Todo-items-${self:provider.stage}
     INDEX_NAME: TodoItemsIndex
-    ATTACHMENT_S3_BUCKET: serverless-udagram-attachments-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: serverless-todo-attachments-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   iamRoleStatements:
