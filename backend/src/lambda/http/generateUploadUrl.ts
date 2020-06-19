@@ -13,7 +13,7 @@ export const handler: APIGatewayProxyHandler = async (
 ): Promise<APIGatewayProxyResult> => {
 	const logger = createLogger("Generate-Upload-Url-Log");
 	const userId = "123";
-	const todoId = "345";
+	const todoId = "94897b60-dd0f-44f4-a728-2408e8c12d75";
 	const s3 = new AWS.S3({ signatureVersion: "v4" });
 	const bucketName = process.env.ATTACHMENT_S3_BUCKET;
 	const docClient = new AWS.DynamoDB.DocumentClient();
@@ -43,6 +43,7 @@ export const handler: APIGatewayProxyHandler = async (
 		},
 		ReturnValues: "UPDATED_NEW",
 	};
+
 	await docClient.update(options).promise();
 
 	return {
