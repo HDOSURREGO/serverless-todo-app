@@ -8,6 +8,7 @@ import { CreateTodoRequest } from "../../requests/CreateTodoRequest";
 import * as uuid from "uuid";
 import { createLogger } from "../../utils/logger";
 import * as AWS from "aws-sdk";
+import { getUserId } from "../utils";
 
 const logger = createLogger("Create-Todo-Log");
 
@@ -17,11 +18,11 @@ export const handler: APIGatewayProxyHandler = async (
 	// TODO: Implement creating a new TODO item
 	logger.info("Processing event: ", event);
 
-	const userId = "123";
+	const userId = getUserId(event);
+	const todoId = uuid.v4();
 	const docClient = new AWS.DynamoDB.DocumentClient();
 	const todosTable = process.env.TODO_ITEMS;
 	const createTodoRequest: CreateTodoRequest = JSON.parse(event.body);
-	const todoId = uuid.v4();
 
 	const newTodo = {
 		userId: userId,

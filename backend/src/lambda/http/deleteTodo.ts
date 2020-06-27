@@ -6,6 +6,7 @@ import {
 	APIGatewayProxyHandler,
 } from "aws-lambda";
 import * as AWS from "aws-sdk";
+import { getUserId } from "../utils";
 
 const logger = createLogger("Todo-Access-Layer");
 
@@ -16,8 +17,8 @@ export const handler: APIGatewayProxyHandler = async (
 
 	console.log("Delete in Process", event);
 
-	const userId = "123";
-	const todoId = "345";
+	const userId = getUserId(event);
+	const todoId = event.pathParameters.todoId;
 	const todosTable = process.env.TODO_ITEMS;
 	const docClient = new AWS.DynamoDB.DocumentClient();
 

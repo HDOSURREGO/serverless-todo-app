@@ -1,5 +1,6 @@
 import "source-map-support/register";
 import * as AWS from "aws-sdk";
+import { getUserId } from "../utils";
 import {
 	APIGatewayProxyEvent,
 	APIGatewayProxyHandler,
@@ -17,8 +18,8 @@ export const handler: APIGatewayProxyHandler = async (
 
 	logger.info("Processing event: ", event);
 
-	const todoId = "345";
-	const userId = "123";
+	const todoId = event.pathParameters.todoId;
+	const userId = getUserId(event);
 	const updatedTodo: UpdateTodoRequest = JSON.parse(event.body);
 	const docClient = new AWS.DynamoDB.DocumentClient();
 	const todosTable = process.env.TODO_ITEMS;

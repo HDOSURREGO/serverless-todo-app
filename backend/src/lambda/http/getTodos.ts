@@ -5,6 +5,7 @@ import {
 	APIGatewayProxyHandler,
 } from "aws-lambda";
 import * as AWS from "aws-sdk";
+import { getUserId } from "../utils";
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const todosTable = process.env.TODO_ITEMS;
@@ -15,8 +16,8 @@ export const handler: APIGatewayProxyHandler = async (
 	// TODO: Get all TODO items for a current user
 
 	console.log("Processing event: ", event);
-	const userId = "123";
-	// const userId = getUserId(event);
+
+	const userId = getUserId(event);
 
 	const result = await docClient
 		.query({

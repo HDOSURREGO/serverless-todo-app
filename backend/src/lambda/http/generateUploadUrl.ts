@@ -1,6 +1,7 @@
 import "source-map-support/register";
 import { createLogger } from "../../utils/logger";
 import * as AWS from "aws-sdk";
+import { getUserId } from "../utils";
 
 import {
 	APIGatewayProxyEvent,
@@ -12,8 +13,9 @@ export const handler: APIGatewayProxyHandler = async (
 	event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
 	const logger = createLogger("Generate-Upload-Url-Log");
-	const userId = "123";
-	const todoId = "94897b60-dd0f-44f4-a728-2408e8c12d75";
+
+	const todoId = event.pathParameters.todoId;
+	const userId = getUserId(event);
 	const s3 = new AWS.S3({ signatureVersion: "v4" });
 	const bucketName = process.env.ATTACHMENT_S3_BUCKET;
 	const docClient = new AWS.DynamoDB.DocumentClient();
