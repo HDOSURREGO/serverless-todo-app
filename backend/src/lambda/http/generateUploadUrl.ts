@@ -1,52 +1,24 @@
 import "source-map-support/register";
-import { createLogger } from "../../utils/logger";
-import * as AWS from "aws-sdk";
-import { getUserId } from "../utils";
-
 import {
 	APIGatewayProxyEvent,
-	APIGatewayProxyResult,
 	APIGatewayProxyHandler,
+	APIGatewayProxyResult,
 } from "aws-lambda";
+import { createLogger } from "../../utils/logger";
+import { getUserId } from "../utils";
+import { updateTodoAttachmentUrl } from "../../businessLogic/todos";
+
+const logger = createLogger("Generate-Upload-Url-Log");
 
 export const handler: APIGatewayProxyHandler = async (
 	event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-	const logger = createLogger("Generate-Upload-Url-Log");
-
+	logger.info("Processing event: ", event);
 	const todoId = event.pathParameters.todoId;
 	const userId = getUserId(event);
-	const s3 = new AWS.S3({ signatureVersion: "v4" });
-	const bucketName = process.env.ATTACHMENT_S3_BUCKET;
-	const docClient = new AWS.DynamoDB.DocumentClient();
-	const todosTable = process.env.TODO_ITEMS;
-	const signedUrlExpireSeconds = 60 * 5;
 
-	// TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-	logger.info("Processing event: ", event);
-
-	const url = s3.getSignedUrl("putObject", {
-		Bucket: bucketName,
-		Key: todoId,
-		Expires: signedUrlExpireSeconds,
-	});
-
-	const attachmentUrl: string =
-		"https://" + bucketName + ".s3.amazonaws.com/" + todoId;
-	const options = {
-		TableName: todosTable,
-		Key: {
-			userId: userId,
-			todoId: todoId,
-		},
-		UpdateExpression: "set attachmentUrl = :r",
-		ExpressionAttributeValues: {
-			":r": attachmentUrl,
-		},
-		ReturnValues: "UPDATED_NEW",
-	};
-
-	await docClient.update(options).promise();
+	// TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
+	const url = await updateTodoAttachmentUrl(todoId, userId);
 
 	return {
 		statusCode: 200,
