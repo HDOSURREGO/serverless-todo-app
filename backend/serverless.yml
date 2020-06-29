@@ -20,31 +20,33 @@ custom:
         - name: User
           description: User Management
     models:
-      - name: MessageResponse
+      - name: CreateTodoRequest
         contentType: "application/json"
         schema:
           type: object
-          properties:
-            message:
-              type: string
-      - name: RegisterUserRequest
-        contentType: "application/json"
-        schema:
           required:
-            - email
-            - password
+            - name
+            - dueDate
           properties:
-            email:
+            name:
               type: string
-            password:
+            dueDate:
               type: string
-      - name: RegisterUserResponse
+      - name: UpdateTodoRequest
         contentType: "application/json"
         schema:
           type: object
+          required:
+            - name
+            - dueDate
+            - done
           properties:
-            result:
+            name:
               type: string
+            dueDate:
+              type: string
+            done:
+              type: boolean
 
 provider:
   name: aws
