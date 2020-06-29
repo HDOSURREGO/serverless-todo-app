@@ -6,7 +6,45 @@ service:
 plugins:
   - serverless-webpack
   - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
   - serverless-iam-roles-per-function
+
+custom:
+  documentation:
+    api:
+      info:
+        version: "1.0.0"
+        title: My API
+        description: This is my API
+      tags:
+        - name: User
+          description: User Management
+    models:
+      - name: MessageResponse
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+      - name: RegisterUserRequest
+        contentType: "application/json"
+        schema:
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+      - name: RegisterUserResponse
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            result:
+              type: string
 
 provider:
   name: aws
