@@ -15,38 +15,14 @@ custom:
       info:
         version: "1.0.0"
         title: My API
-        description: This is my API
-      tags:
-        - name: User
-          description: User Management
+        description: Serverless Todo App
     models:
       - name: CreateTodoRequest
         contentType: "application/json"
-        schema:
-          type: object
-          required:
-            - name
-            - dueDate
-          properties:
-            name:
-              type: string
-            dueDate:
-              type: string
+        schema: ${file(models/create-todo-request.json)}
       - name: UpdateTodoRequest
         contentType: "application/json"
-        schema:
-          type: object
-          required:
-            - name
-            - dueDate
-            - done
-          properties:
-            name:
-              type: string
-            dueDate:
-              type: string
-            done:
-              type: boolean
+        schema: ${file(models/update-todo-request.json)}
 
 provider:
   name: aws
