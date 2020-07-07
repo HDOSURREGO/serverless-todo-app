@@ -1,5 +1,6 @@
 org: hdosurrego
 app: serverless-todo-app-app
+
 service:
   name: serverless-todo-app
 
@@ -8,21 +9,6 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
   - serverless-iam-roles-per-function
-
-custom:
-  documentation:
-    api:
-      info:
-        version: "1.0.0"
-        title: My API
-        description: Serverless Todo App
-    models:
-      - name: CreateTodoRequest
-        contentType: "application/json"
-        schema: ${file(models/create-todo-request.json)}
-      - name: UpdateTodoRequest
-        contentType: "application/json"
-        schema: ${file(models/update-todo-request.json)}
 
 provider:
   name: aws
@@ -38,6 +24,21 @@ provider:
     INDEX_NAME: TodoItemsIndex
     ATTACHMENT_S3_BUCKET: serverless-todo-attachments-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+
+custom:
+  documentation:
+    api:
+      info:
+        version: "1.0.0"
+        title: Serverless Todo API
+        description: Serverless Todo App
+    models:
+      - name: CreateTodoRequest
+        contentType: "application/json"
+        schema: ${file(models/create-todo-request.json)}
+      - name: UpdateTodoRequest
+        contentType: "application/json"
+        schema: ${file(models/update-todo-request.json)}
 
 functions:
   Auth:
