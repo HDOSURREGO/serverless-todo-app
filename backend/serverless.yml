@@ -26,6 +26,10 @@ provider:
     SIGNED_URL_EXPIRATION: 300
 
 custom:
+  topicName: uploadNotificationTopic-${self:provider.stage}
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
   documentation:
     api:
       info:
@@ -184,6 +188,14 @@ functions:
                 - Ref: AWS::AccountId
                 - ${self:custom.topicName}
           topicName: ${self:custom.topicName}
+    iamRoleStatementsName: UploadNotifications
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+        Resource:
+          - "*"
 
 resources:
   Resources:
@@ -238,6 +250,10 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.ATTACHMENT_S3_BUCKET}
+        NotificationConfiguration:
+          TopicConfigurations:
+            - Event: s3:ObjectCreated:Put
+              Topic: !Ref AttachmentTopic
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
@@ -265,3 +281,26 @@ resources:
               Action: "s3:GetObject"
               Resource: "arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*"
         Bucket: !Ref AttachmentsBucket
+
+    AttachmentTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: ImageUploaded topic
+        TopicName: ${self:custom.topicName}
+
+    SNSTopicPolicy:
+      Type: AWS::SNS::TopicPolicy
+      Properties:
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                AWS: "*"
+              Action: sns:Publish
+              Resource: !Ref AttachmentTopic
+              Condition:
+                ArnLike:
+                  AWS:SourceArn: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}
+        Topics:
+          - !Ref AttachmentTopic
