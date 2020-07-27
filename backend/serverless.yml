@@ -192,6 +192,10 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
+          - s3:PutObject
+        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+      - Effect: Allow
+        Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
         Resource:
@@ -285,7 +289,7 @@ resources:
     AttachmentTopic:
       Type: AWS::SNS::Topic
       Properties:
-        DisplayName: ImageUploaded topic
+        DisplayName: uploadNotificationTopic
         TopicName: ${self:custom.topicName}
 
     SNSTopicPolicy:
