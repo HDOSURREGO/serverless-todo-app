@@ -14,7 +14,7 @@ export const handler: SNSHandler = async (event: SNSEvent) => {
 		const s3EventStr = snsRecord.Sns.Message;
 		const s3Event = JSON.parse(s3EventStr);
 
-		console.log("Este es el evento en la funcion: ", s3Event);
+		await console.log("Este es el evento que llegó ", s3Event);
 
 		// await processS3Event(s3Event);
 	}
