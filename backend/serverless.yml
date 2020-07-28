@@ -176,8 +176,8 @@ functions:
         Resource:
           - "*"
 
-  SendUploadNotifications:
-    handler: src/lambda/s3/sendNotifications.handler
+  TransformImage:
+    handler: src/lambda/s3/transformImage.handler
     events:
       - sns:
           arn:
@@ -188,7 +188,7 @@ functions:
                 - Ref: AWS::AccountId
                 - ${self:custom.topicName}
           topicName: ${self:custom.topicName}
-    iamRoleStatementsName: UploadNotifications
+    iamRoleStatementsName: TransformNotification
     iamRoleStatements:
       - Effect: Allow
         Action:
