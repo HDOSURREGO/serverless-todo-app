@@ -7,11 +7,12 @@
     "@types/http-errors": "^1.6.1",
     "aws-xray-sdk": "^2.2.0",
     "axios": "^0.19.2",
+    "fs": "0.0.1-security",
     "http-errors": "^1.7.2",
+    "jimp": "^0.14.0",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.27.0",
     "serverless": "^1.74.1",
-    "sharp": "^0.25.4",
     "source-map-support": "^0.5.11",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"
