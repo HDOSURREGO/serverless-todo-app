@@ -12,7 +12,7 @@
     "jimp": "^0.14.0",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.27.0",
-    "serverless": "^1.74.1",
+    "serverless": "^3.27.0",
     "source-map-support": "^0.5.11",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"
